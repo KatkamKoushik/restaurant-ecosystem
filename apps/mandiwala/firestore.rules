@@ -1,0 +1,22 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Match any document in the 'reservations' collection
+    match /reservations/{reservationId} {
+      // Anyone can create a reservation
+      allow create: if true;
+      // Only authenticated admins (checked via custom logic or just broadly for now) can read/update/delete
+      // In a real production app, verify the user's role here if using Firebase Auth.
+      // Since we are using Clerk for auth, our server actions will bypass rules using Firebase Admin SDK,
+      // OR if we read directly from client, we need to allow read.
+      allow read, update, delete: if true; // WARNING: Setting to true for demo purposes. Secure this in production.
+    }
+    
+    match /menu/{itemId} {
+      allow read: if true; // Anyone can read the menu
+      // Admin dashboard operations
+      allow write: if true; // WARNING: Secure in production
+    }
+  }
+}

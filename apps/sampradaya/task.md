@@ -1,0 +1,27 @@
+- [x] Project Initialization
+  - [x] Run `pnpm create next-app`
+  - [x] Install dependencies
+- [x] Global Styles & Fonts
+- [x] Layout & Global Components
+- [x] Custom Loading Screen
+- [x] Landing Page Updates (`/`)
+  - [x] Hero Section (WhatsApp CTA)
+  - [x] Features Grid
+  - [x] About Us
+  - [x] Update Bestsellers (Add to Cart buttons)
+  - [x] Ambience Gallery (Masonry/Carousel)
+  - [x] Physical Menu CTA
+- [x] Zustand Cart & WhatsApp Logic
+  - [x] Create `cart.ts` store
+  - [x] Navbar Cart Icon & UI (`CartDrawer.tsx`)
+  - [x] WhatsApp URL generation
+- [x] Digital Menu Page (`/menu`)
+  - [x] Render categories with Add to Cart
+- [x] Physical Menu Page (`/physical-menu`)
+  - [x] Gallery for physical menu scans with Lightbox Zoom
+- [ ] Firebase & Admin Panel (`/admin`)
+  - [ ] Setup `firebase.ts`
+  - [ ] Admin Layout (Clerk protected)
+  - [ ] Menu Item CRUD UI
+  - [ ] Cloudinary Image Upload integration
+  - [ ] Refactor `/menu` to fetch from Firebase

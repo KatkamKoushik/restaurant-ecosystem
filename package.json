@@ -1,0 +1,24 @@
+{
+  "name": "restaurant-ecosystem",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@12.4.2",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "build:sampradaya": "pnpm --filter @restaurant-ecosystem/sampradaya build",
+    "build:mandiwala": "pnpm --filter @restaurant-ecosystem/mandiwala build",
+    "build:aroma": "pnpm --filter @restaurant-ecosystem/aroma build",
+    "build:majesty": "pnpm --filter @restaurant-ecosystem/majesty build",
+    "dev:sampradaya": "pnpm --filter @restaurant-ecosystem/sampradaya dev",
+    "dev:mandiwala": "pnpm --filter @restaurant-ecosystem/mandiwala dev",
+    "dev:aroma": "pnpm --filter @restaurant-ecosystem/aroma dev",
+    "dev:majesty": "pnpm --filter @restaurant-ecosystem/majesty dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.4",
+    "typescript": "^5"
+  }
+}
