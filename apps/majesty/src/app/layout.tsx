@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter, Playfair_Display, Montserrat, Cinzel } from "next/font/google";
 import "./globals.css";
+import { RestaurantSwitcher } from "@restaurant-ecosystem/ui";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -62,6 +63,7 @@ export default function RootLayout({
             >
               A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK &amp; VYSHNAVI.
             </p>
+            <RestaurantSwitcher currentRestaurantId="majesty" className="mt-3 relative z-10" />
           </div>
           {children}
         </body>

@@ -3,6 +3,8 @@ export interface RestaurantMetadata {
   name: string;
   legalName: string;
   tagline: string;
+  shortDescription: string;
+  url: string;
   cuisine: string[];
   themeColor: string;
   whatsappNumber: string;
@@ -29,15 +31,17 @@ export const RESTAURANTS: Record<string, RestaurantMetadata> = {
     name: "Sampradaya",
     legalName: "Sampradaya Multicuisine Family Restaurant",
     tagline: "Authentic Multicuisine & Traditional Flavors",
+    shortDescription: "Heritage Indian & Multicuisine Family Dining",
+    url: "https://sampradaya-multicuisine-family-rest.vercel.app/",
     cuisine: ["South Indian", "North Indian", "Biryanis", "Tandoori", "Chinese"],
     themeColor: "#7F1D1D",
     whatsappNumber: "916303563242",
     phoneNumber: "+91 63035 63242",
     location: {
-      address: "Near Main Road",
-      city: "Hyderabad",
+      address: "4th Floor, Kaloji Marg, Balasamudram",
+      city: "Hanamkonda",
       state: "Telangana",
-      pincode: "500001",
+      pincode: "506001",
       country: "India",
     },
     features: {
@@ -53,15 +57,17 @@ export const RESTAURANTS: Record<string, RestaurantMetadata> = {
     name: "Mandiwala",
     legalName: "Mandiwala Arabian Restaurant",
     tagline: "Authentic Arabian Flavors & Feast Experiences",
+    shortDescription: "Authentic Arabian Mandi & Private Majlis Dining",
+    url: "https://mandiwala-arabian-restaurant.vercel.app/",
     cuisine: ["Arabian Mandi", "Kabab", "Desserts", "Signature Platters"],
     themeColor: "#D4AF37",
     whatsappNumber: "918500371100",
     phoneNumber: "+91 85003 71100",
     location: {
-      address: "Arabian Street, Jubilee Hills",
-      city: "Hyderabad",
+      address: "Opposite Asian Sridevi Mall",
+      city: "Hanamkonda",
       state: "Telangana",
-      pincode: "500033",
+      pincode: "506001",
       country: "India",
     },
     features: {
@@ -77,15 +83,17 @@ export const RESTAURANTS: Record<string, RestaurantMetadata> = {
     name: "Aroma",
     legalName: "Aroma Fine Dine Restaurant & Banquet Hall",
     tagline: "Luxury Fine Dining & Grand Celebrations",
+    shortDescription: "Fine Dine Atmosphere & Grand Celebrations Hall",
+    url: "https://aroma-fine-dine-restaurant-banquet.vercel.app/",
     cuisine: ["Fine Dine Multicuisine", "Tandoori Specialties", "Continental", "Banquets"],
     themeColor: "#DFB15B",
     whatsappNumber: "917331122436",
     phoneNumber: "+91 73311 22436",
     location: {
-      address: "Luxury Boulevard, Banjara Hills",
-      city: "Hyderabad",
+      address: "Main Road, Naimnagar",
+      city: "Hanamkonda",
       state: "Telangana",
-      pincode: "500034",
+      pincode: "506009",
       country: "India",
     },
     features: {
@@ -101,15 +109,17 @@ export const RESTAURANTS: Record<string, RestaurantMetadata> = {
     name: "Majesty",
     legalName: "Majesty Mandi House",
     tagline: "Royalty in Every Grain of Mandi",
+    shortDescription: "Premium Arabian Mandi & Signature Feast Platters",
+    url: "https://majesty-mandi-house-eight.vercel.app/",
     cuisine: ["Authentic Mutton Mandi", "Chicken Mandi", "Fish Mandi", "Arabian Platters"],
     themeColor: "#DFB15B",
     whatsappNumber: "919502316909",
     phoneNumber: "+91 95023 16909",
     location: {
-      address: "Royal Heritage Enclave, Gachibowli",
-      city: "Hyderabad",
+      address: "Near Kakatiya University Cross Roads",
+      city: "Hanamkonda",
       state: "Telangana",
-      pincode: "500032",
+      pincode: "506009",
       country: "India",
     },
     features: {

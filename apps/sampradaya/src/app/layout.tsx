@@ -4,6 +4,7 @@ import "./globals.css";
 import { LenisProvider } from "@/components/LenisProvider";
 import { CustomLoadingScreen } from "@/components/CustomLoadingScreen";
 import { Navbar } from "@/components/Navbar";
+import { RestaurantSwitcher } from "@restaurant-ecosystem/ui";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,9 +64,10 @@ export default function RootLayout({
               >
                 A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK &amp; VYSHNAVI.
               </p>
+              <RestaurantSwitcher currentRestaurantId="sampradaya" className="mt-3 relative z-10" />
             </div>
             <Navbar />
-            <main className="min-h-screen">{children}</main>
+            <main>{children}</main>
           </LenisProvider>
       </body>
     </html>
