@@ -35,3 +35,6 @@ pnpm-debug.log*
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Local agent rules
+GEMINI.md

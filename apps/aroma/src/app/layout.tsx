@@ -5,6 +5,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { GoldenAura } from "@/components/ui/GoldenAura";
+import { RestaurantSwitcher } from "@restaurant-ecosystem/ui";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -72,6 +73,7 @@ export default function RootLayout({
                   >
                     A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK &amp; VYSHNAVI.
                   </p>
+                  <RestaurantSwitcher currentRestaurantId="aroma" className="mt-3 relative z-10" />
                 </div>
                 {/* ═══════════════ END TOP VIDEO BANNER ═══════════════ */}
 
@@ -84,4 +86,3 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
-

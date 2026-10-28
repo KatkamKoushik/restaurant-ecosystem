@@ -6,6 +6,7 @@ import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import CartSidebar from "@/components/CartSidebar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { RestaurantSwitcher } from "@restaurant-ecosystem/ui";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -64,6 +65,7 @@ export default function RootLayout({
               >
                 A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK &amp; VYSHNAVI.
               </p>
+              <RestaurantSwitcher currentRestaurantId="mandiwala" className="mt-3 relative z-10" />
             </div>
             {children}
           </SmoothScrollProvider>
