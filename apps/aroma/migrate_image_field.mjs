@@ -1,15 +1,28 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import * as fs from 'fs/promises';
+import { existsSync } from 'fs';
 
 async function run() {
-  const env = await fs.readFile('.env.local', 'utf8');
-  const envMap = Object.fromEntries(env.split('\n').filter(Boolean).map(l => l.split('=').map(s=>s.trim())));
+  let envMap = {};
+  if (existsSync('.env.local')) {
+    const env = await fs.readFile('.env.local', 'utf8');
+    envMap = Object.fromEntries(env.split('\n').filter(Boolean).map(l => l.split('=').map(s=>s.trim())));
+  }
   
+  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || envMap.NEXT_PUBLIC_FIREBASE_API_KEY;
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || envMap.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID || envMap.NEXT_PUBLIC_FIREBASE_APP_ID;
+
+  if (!apiKey || !projectId) {
+    console.error("Firebase environment variables are missing. Please configure .env.local");
+    return;
+  }
+
   const app = initializeApp({
-    apiKey: envMap.NEXT_PUBLIC_FIREBASE_API_KEY,
-    projectId: envMap.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    appId: envMap.NEXT_PUBLIC_FIREBASE_APP_ID
+    apiKey,
+    projectId,
+    appId
   });
   
   const db = getFirestore(app);

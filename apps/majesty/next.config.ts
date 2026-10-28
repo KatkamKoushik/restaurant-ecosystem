@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { productionSecurityHeaders } from "@restaurant-ecosystem/config";
 
 const nextConfig: NextConfig = {
   transpilePackages: [
@@ -21,6 +22,14 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: productionSecurityHeaders,
+      },
+    ];
   },
 };
 

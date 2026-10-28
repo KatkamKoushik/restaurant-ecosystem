@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { useMenu } from "@/lib/hooks/useMenu";
 import { MenuItem } from "@/lib/data";
 import { CldUploadWidget } from "next-cloudinary";
@@ -11,8 +12,17 @@ import Image from "next/image";
 const CATEGORIES = ["Chicken", "Mutton", "Egg", "Paneer", "Seafood", "Add-on", "Dessert"] as const;
 
 export default function AdminMenuPage() {
+  const { isLoaded, isSignedIn } = useUser();
   const { menu, loading, addOrUpdateMenuItem, deleteMenuItem } = useMenu();
   const [editingItem, setEditingItem] = useState<Partial<MenuItem> | null>(null);
+
+  if (!isLoaded) {
+    return <div className="min-h-screen bg-charcoal flex items-center justify-center text-gold-royal">Loading...</div>;
+  }
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
+
   const handleSave = async () => {
     if (!editingItem?.name || !editingItem?.category) {
       alert("Name and Category are required.");

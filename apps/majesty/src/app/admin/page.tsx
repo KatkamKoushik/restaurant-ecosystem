@@ -17,7 +17,7 @@ type Dish = {
 };
 
 export default function AdminPage() {
-  const { user } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingDish, setEditingDish] = useState<Dish | null>(null);
@@ -53,8 +53,45 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    fetchDishes();
-  }, []);
+    if (isSignedIn) {
+      fetchDishes();
+    }
+  }, [isSignedIn]);
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-[#0B0B0C] text-[#DFB15B] flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-[#DFB15B] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-neutral-400 text-sm">Verifying access...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isSignedIn) {
+    return (
+      <div className="min-h-screen bg-[#0B0B0C] text-white flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-[#18181B] border border-neutral-800 rounded-xl p-8 text-center shadow-2xl">
+          <h1 className="text-2xl font-serif text-[#DFB15B] mb-2">Restricted Access</h1>
+          <p className="text-neutral-400 text-sm mb-6">
+            You must be signed in with an administrator account to access this management dashboard.
+          </p>
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/admin/login"
+              className="w-full bg-[#DFB15B] hover:bg-[#e8c078] text-black font-bold py-3 rounded-lg transition-colors inline-block text-center"
+            >
+              Sign In as Admin
+            </Link>
+            <Link href="/" className="text-neutral-400 hover:text-white text-sm py-2 transition-colors text-center">
+              Return to Website
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleSave = async (dish: Dish) => {
     if (dish.id === "new") {
