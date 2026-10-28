@@ -9,13 +9,22 @@ out/
 # Build caches & Turbo
 .turbo/
 dist/
+*.tsbuildinfo
 
 # Environment files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
+*.env
+
+# Sensitive credentials & secrets
+*.pem
+*.key
+*.cert
+*service-account*.json
+firebase-adminsdk*.json
+credentials.json
+.clerk/
 
 # Logs
 npm-debug.log*

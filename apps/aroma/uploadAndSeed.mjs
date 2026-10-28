@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import { existsSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
@@ -8,14 +9,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function extractEnv() {
-  const envContent = await fs.readFile(path.join(__dirname, '.env.local'), 'utf8');
-  const env = {};
-  envContent.split('\n').forEach(line => {
-    const match = line.match(/^([^=]+)=(.*)$/);
-    if (match) {
-      env[match[1].trim()] = match[2].trim();
-    }
-  });
+  const envPath = path.join(__dirname, '.env.local');
+  const env = { ...process.env };
+  if (existsSync(envPath)) {
+    const envContent = await fs.readFile(envPath, 'utf8');
+    envContent.split('\n').forEach(line => {
+      const match = line.match(/^([^=]+)=(.*)$/);
+      if (match) {
+        env[match[1].trim()] = match[2].trim();
+      }
+    });
+  }
   return env;
 }
 
@@ -44,9 +48,6 @@ async function uploadToCloudinary(filePath, cloudName, apiKey, apiSecret) {
   const fileName = path.basename(filePath, path.extname(filePath));
   const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
   
-  const timestamp = Math.floor(Date.now() / 1000);
-  
-  // We need SHA-1 for Cloudinary signature if not using preset.
   const env = await extractEnv();
   const preset = env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
   if (!preset) {
@@ -92,6 +93,11 @@ async function main() {
     appId: env.NEXT_PUBLIC_FIREBASE_APP_ID,
     measurementId: env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
   };
+
+  if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+    console.error("Firebase environment variables are missing. Please configure .env.local");
+    process.exit(1);
+  }
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);

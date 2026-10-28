@@ -23,6 +23,11 @@
 # misc
 .DS_Store
 *.pem
+*.key
+*.cert
+*service-account*.json
+firebase-adminsdk*.json
+credentials.json
 
 # debug
 npm-debug.log*
@@ -30,8 +35,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files
+.env
+.env.*
+!.env.example
+*.env
 
 # vercel
 .vercel
@@ -39,3 +47,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# clerk configuration (can include secrets)
+/.clerk/
