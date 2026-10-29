@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 import { productionSecurityHeaders } from "@restaurant-ecosystem/config";
 
 const nextConfig: NextConfig = {
+  basePath: "/mandiwala",
+  serverExternalPackages: ["firebase-admin", "@google-cloud/firestore"],
   transpilePackages: [
     "@restaurant-ecosystem/ui",
     "@restaurant-ecosystem/utils",

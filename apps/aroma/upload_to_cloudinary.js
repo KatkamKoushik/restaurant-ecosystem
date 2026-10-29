@@ -25,12 +25,13 @@ async function uploadImages() {
   }
   let menuItems;
   try {
-    const sanitized = match[1]
-      .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
-      .replace(/,(?=\s*[}\]])/g, '');
-    menuItems = JSON.parse(sanitized);
+    menuItems = JSON.parse(match[1]);
   } catch {
-    menuItems = new Function(`return ${match[1]}`)();
+    const sanitized = match[1]
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+      .replace(/,\s*([}\]])/g, "$1");
+    menuItems = JSON.parse(sanitized);
   }
 
   console.log(`Starting upload of ${menuItems.length} items to Cloudinary...`);

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { RedirectToSignIn, useUser, SignOutButton } from "@clerk/nextjs";
 import { db } from "@/lib/firebase";
-import { collection, query, orderBy, onSnapshot, updateDoc, doc } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Users, Calendar, CheckCircle, XCircle, LogOut } from "lucide-react";
 
 interface Reservation {
@@ -34,22 +34,89 @@ function DashboardContent() {
   const { user } = useUser();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const q = query(collection(db, "reservations"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Reservation));
-      setReservations(data);
+  // Fetch reservations from server API (authenticated with Clerk & Firebase Admin SDK)
+  const fetchReservations = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/reservations");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.reservations)) {
+          setReservations(data.reservations);
+          setErrorMessage(null);
+        }
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        if (res.status === 403) {
+          setErrorMessage("Access Denied: You do not have administrator permissions.");
+        } else if (res.status === 503) {
+          setErrorMessage("Firebase Admin credentials not configured on the server.");
+        } else {
+          setErrorMessage(errData.error || "Failed to load reservations.");
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch reservations via API:", err);
+    } finally {
       setLoading(false);
-    });
-    return () => unsubscribe();
+    }
   }, []);
 
-  const handleUpdateStatus = async (id: string, status: "confirmed" | "declined") => {
+  useEffect(() => {
+    // Initial fetch from secure server route
+    fetchReservations();
+
+    // Setup real-time listener with graceful fallback to periodic polling
+    let unsubscribe = () => {};
     try {
-      await updateDoc(doc(db, "reservations", id), { status });
+      const q = query(collection(db, "reservations"), orderBy("createdAt", "desc"));
+      unsubscribe = onSnapshot(
+        q,
+        (snapshot) => {
+          const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Reservation));
+          setReservations(data);
+          setLoading(false);
+        },
+        () => {
+          // If Firestore security rules restrict direct browser reads, server API polling is used
+          console.info("Direct Firestore listener restricted by rules; using server API polling.");
+        }
+      );
+    } catch {
+      // Direct listener unavailable
+    }
+
+    // Polling interval to ensure dashboard stays up to date
+    const interval = setInterval(fetchReservations, 15000);
+
+    return () => {
+      unsubscribe();
+      clearInterval(interval);
+    };
+  }, [fetchReservations]);
+
+  const handleUpdateStatus = async (id: string, status: "confirmed" | "declined") => {
+    const previous = [...reservations];
+    try {
+      // Optimistic update
+      setReservations(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+
+      const res = await fetch("/api/admin/reservations", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Failed to update reservation status");
+        setReservations(previous); // Revert optimistic update
+      }
     } catch (error) {
       console.error("Error updating document: ", error);
+      setReservations(previous);
+      fetchReservations();
     }
   };
 
@@ -60,7 +127,7 @@ function DashboardContent() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center space-y-4 md:space-y-0 mb-12 border-b border-bronze pb-6">
+      <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center space-y-4 md:space-y-0 mb-8 border-b border-bronze pb-6">
         <div>
           <h1 className="font-cinzel text-3xl text-gold-royal uppercase tracking-widest">Admin Dashboard</h1>
           <p className="text-sm opacity-60 mt-1">Welcome back, {user?.firstName || "Admin"}</p>
@@ -74,6 +141,12 @@ function DashboardContent() {
           </SignOutButton>
         </div>
       </div>
+
+      {errorMessage && (
+        <div className="mb-8 p-4 bg-red-950/60 border border-red-800 text-red-200 rounded-lg text-sm">
+          {errorMessage}
+        </div>
+      )}
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -172,7 +245,7 @@ function DashboardContent() {
         </div>
       </div>
       
-      {/* Dynamic Menu Manager Setup (Placeholder for Cloudinary upload) */}
+      {/* Dynamic Menu Manager Setup */}
       <div className="mt-12 bg-obsidian border border-bronze rounded-xl overflow-hidden p-6 text-center">
         <h2 className="font-cinzel text-xl text-gold-royal tracking-widest uppercase mb-2">Menu Management</h2>
         <p className="text-sm text-charcoal-light/60 mb-6 max-w-2xl mx-auto">

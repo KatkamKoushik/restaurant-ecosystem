@@ -2,6 +2,10 @@ packages:
   - "apps/*"
   - "packages/*"
 
+overrides:
+  "@grpc/grpc-js": ">=1.13.6"
+  "re2js": ">=2.8.7"
+
 allowBuilds:
   '@firebase/util': true
   protobufjs: true

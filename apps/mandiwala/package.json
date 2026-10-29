@@ -7,20 +7,23 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.7.4",
+    "@google-cloud/firestore": "^9.4.0",
     "@restaurant-ecosystem/config": "workspace:*",
     "@restaurant-ecosystem/ui": "workspace:*",
     "@restaurant-ecosystem/utils": "workspace:*",
     "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
     "firebase": "^12.17.1",
+    "firebase-admin": "^14.5.0",
     "framer-motion": "^13.1.0",
     "lenis": "^1.3.26",
     "lucide-react": "^1.31.0",
-    "next": "16.3.1",
+    "next": "16.4.3",
     "next-cloudinary": "^6.18.8",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -33,8 +36,9 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.3.1",
+    "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^5.0.5"
   }
 }

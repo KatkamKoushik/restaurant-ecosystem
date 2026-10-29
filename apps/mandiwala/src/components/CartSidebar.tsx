@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useCartStore } from "@/lib/store";
+import { calculateOrderTotals, validateCustomerDetails, formatWhatsAppOrder } from "@/lib/order";
 
 export default function CartSidebar() {
-  const { items, isOpen, setIsOpen, updateQuantity, removeItem, clearCart } = useCartStore();
+  const { items, isOpen, setIsOpen, updateQuantity, removeItem } = useCartStore();
   const pathname = usePathname();
   const [deliveryType, setDeliveryType] = useState<"Home Delivery" | "Pickup">("Home Delivery");
   const [name, setName] = useState("");
@@ -20,51 +21,37 @@ export default function CartSidebar() {
 
   if (pathname?.startsWith("/admin")) return null;
 
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const gst = Math.round(subtotal * 0.05);
-  const grandTotal = subtotal + gst;
+  const { subtotal, gst, grandTotal } = calculateOrderTotals(items);
 
   const handleCheckout = () => {
-    if (!name || !phone) {
-      alert("Please enter your Name and Mobile Number.");
+    const validation = validateCustomerDetails({
+      name,
+      phone,
+      deliveryType,
+      houseNo,
+      street,
+      landmark,
+      pincode,
+      instructions,
+    });
+
+    if (!validation.isValid) {
+      alert(validation.error);
       return;
     }
-    if (deliveryType === "Home Delivery") {
-      if (!houseNo || !street) {
-        alert("Please enter your Flat / House No. and Street / Area.");
-        return;
-      }
-    }
 
-    let text = `*New Order - Mandiwala*\n`;
-    text += `---------------------------\n`;
-    items.forEach((item) => {
-      const sizeText = item.size !== "Fixed" ? ` (${item.size})` : "";
-      text += `${item.name}${sizeText} x ${item.quantity} - ₹${item.price * item.quantity}\n`;
+    const { encodedUrl } = formatWhatsAppOrder(items, {
+      name,
+      phone,
+      deliveryType,
+      houseNo,
+      street,
+      landmark,
+      pincode,
+      instructions,
     });
-    text += `---------------------------\n`;
-    text += `Subtotal: ₹${subtotal}\n`;
-    text += `GST (5%): ₹${gst}\n`;
-    text += `*Grand Total: ₹${grandTotal}*\n`;
-    text += `---------------------------\n`;
-    text += `Delivery Type: ${deliveryType}\n`;
-    text += `Name: ${name}\n`;
-    text += `Phone: ${phone}\n`;
-    if (deliveryType === "Home Delivery") {
-      text += `Address:\n`;
-      text += `${houseNo}, ${street}\n`;
-      if (landmark) text += `Landmark: ${landmark}\n`;
-      if (pincode) text += `Pincode: ${pincode}\n`;
-    }
-    if (instructions) {
-      text += `Special Instructions: ${instructions}\n`;
-    }
 
-    const whatsappNumber = "+918500371100";
-    const encodedText = encodeURIComponent(text);
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodedText}`, "_blank");
-    
-    // Optional: clearCart() after checkout
+    window.open(encodedUrl, "_blank");
   };
 
   return (

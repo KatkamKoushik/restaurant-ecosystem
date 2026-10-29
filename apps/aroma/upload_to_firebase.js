@@ -2,7 +2,7 @@ require('dotenv').config({ path: '.env.local' });
 const fs = require('fs');
 const path = require('path');
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, doc, setDoc, writeBatch } = require('firebase/firestore');
+const { getFirestore, doc, writeBatch } = require('firebase/firestore');
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -28,12 +28,13 @@ async function uploadToFirebase() {
   }
   let menuItems;
   try {
-    const sanitized = match[1]
-      .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
-      .replace(/,(?=\s*[}\]])/g, '');
-    menuItems = JSON.parse(sanitized);
+    menuItems = JSON.parse(match[1]);
   } catch {
-    menuItems = new Function(`return ${match[1]}`)();
+    const sanitized = match[1]
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+      .replace(/,\s*([}\]])/g, "$1");
+    menuItems = JSON.parse(sanitized);
   }
 
   console.log(`Starting upload of ${menuItems.length} items to Firebase Firestore...`);
@@ -53,18 +54,17 @@ async function uploadToFirebase() {
         prices: item.prices || null,
         category: item.category || '',
         image_url: item.image || '',
+        is_veg: item.isVeg || false,
       };
       
       batch.set(docRef, firebaseItem);
     }
     
     await batch.commit();
-    console.log(`Successfully uploaded ${menuItems.length} items to Firebase Firestore collection 'menuItems'.`);
+    console.log(`Successfully batch-uploaded ${menuItems.length} items to Firestore collection 'menuItems'.`);
   } catch (err) {
-    console.error("Error uploading to Firebase. Your Firestore rules might be blocking unauthenticated writes.", err.message);
+    console.error("Error batch-writing to Firestore:", err);
   }
-  
-  process.exit(0);
 }
 
 uploadToFirebase();

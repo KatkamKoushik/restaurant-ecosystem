@@ -1,6 +1,23 @@
 # Mandiwala Arabian Restaurant
 
-I designed and engineered this platform as a complete, production-grade web application and restaurant management system for Mandiwala Arabian Restaurant, a premier dining establishment in Hanamkonda, Warangal.
+[![Next.js](https://img.shields.io/badge/Next.js-16.3.1-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.8-blue?style=flat&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
+[![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?style=flat&logo=clerk)](https://clerk.com/)
+[![Firebase](https://img.shields.io/badge/Database-Firestore-FFCA28?style=flat&logo=firebase)](https://firebase.google.com/)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=flat&logo=vercel)](https://mandiwala-arabian-restaurant.vercel.app/)
+
+A complete, production-grade web application and dining management platform engineered for Mandiwala Arabian Restaurant, a premier dining establishment in Hanamkonda, Warangal.
+
+This workspace is part of the [restaurant-ecosystem](https://github.com/KatkamKoushik/restaurant-ecosystem) monorepo under the package name `@restaurant-ecosystem/mandiwala`.
+
+---
+
+## Live Demonstration
+
+The production deployment is hosted on Vercel:
+[https://mandiwala-arabian-restaurant.vercel.app/](https://mandiwala-arabian-restaurant.vercel.app/)
 
 ---
 
@@ -12,7 +29,7 @@ When I presented the completed platform to the restaurant owner, they declined t
 
 Rather than letting this extensive engineering and design effort go unused, my co-developer Vyshnavi Nagavelli and I chose to retain the codebase, complete the architecture, and publish it as a live showcase of our full-stack capabilities. This context explains the disclaimer banner visible at the very top of the website:
 
-"CURRENTLY AVAILABLE FOR SHOWCASE PURPOSES. A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK & VYSHNAVI."
+*"CURRENTLY AVAILABLE FOR SHOWCASE PURPOSES. A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK & VYSHNAVI."*
 
 Today, this repository serves as a live, open-source portfolio demonstration showing how modern web technologies, bespoke luxury aesthetics, and real-world restaurant workflows come together into a coherent digital product.
 
@@ -31,11 +48,12 @@ The application is structured into four primary layers:
 ## Key System Features
 
 ### 1. Luxury Visual Identity and Motion Design
-- Obsidian and Royal Gold Theme: The palette utilizes deep obsidian blacks (#0B0C10), dark charcoals (#14161D), warm bronzes (#1A1714), and royal gold tones (#D4AF37, #F5E08B, #C5A059) to evoke traditional Arabian luxury.
+- Obsidian and Royal Gold Theme: The palette utilizes deep obsidian blacks (`#0B0C10`), dark charcoals (`#14161D`), warm bronzes (`#1A1714`), and royal gold tones (`#D4AF37`, `#F5E08B`, `#C5A059`) to evoke traditional Arabian dining aesthetic.
 - Animated Brand Preloader: Features an animated Arabic geometric pattern, pulsating brand emblem, and smooth cubic-bezier curtain reveal.
 - Ambient Looping Video Banners: Embedded video backgrounds for both the top showcase banner and developer footer.
 - Lenis Smooth Scrolling: Inertia-based scrolling integrated across all pages with automated scroll-locking during preloader sequences.
 - Responsive Navigation: A sticky glassmorphism navigation bar with scroll detection, mobile navigation drawer, and live cart counter badge.
+- Cross-Restaurant Switcher: Quick navigation to all sister restaurants in the ecosystem via the `@restaurant-ecosystem/ui` module.
 
 ### 2. Multi-Portion Menu and Ordering System
 - Real-Time Firestore Synchronization: Menu items are fetched directly from Firebase Firestore with instant state propagation.
@@ -48,7 +66,7 @@ The application is structured into four primary layers:
 - Slide-Over Cart Drawer: Smooth Framer Motion drawer displaying selected portions, unit prices, subtotal, and tax calculations.
 - Automatic Tax Computation: Computes a 5% GST on the subtotal.
 - Delivery vs. Pickup Workflow: Customers choose between Home Delivery and Pickup. Delivery orders capture house number, street, landmark, and pincode.
-- Automated WhatsApp Dispatch: Formats the entire order into an itemized receipt and dispatches it directly to Mandiwala's official WhatsApp number (+91 85003 71100).
+- Automated WhatsApp Dispatch: Formats the entire order into an itemized receipt and dispatches it directly to Mandiwala's official WhatsApp operations desk (`+91 85003 71100`).
 
 ### 4. Table and Majlis Reservation System
 - Private Cabin Booking: Customers can reserve seating tailored for couples, small groups, or private Family Majlis cabins.
@@ -56,31 +74,31 @@ The application is structured into four primary layers:
 - Status Workflow: Bookings enter as pending and are tracked through confirmation or decline in the admin dashboard.
 
 ### 5. Physical QR Menu Viewer
-- Direct In-Store Access: Accessible at /physical-menu for customers scanning table QR codes.
+- Direct In-Store Access: Accessible at `/physical-menu` for customers scanning table QR codes.
 - High-Resolution Scans: Displays the restaurant's complete printed menu card pages in clean, high-resolution format with optimized responsive image loading.
 
 ### 6. Administrative Dashboard and Content Management
-- Clerk Authentication: Protected dashboard routes ensuring only authorized restaurant staff have access.
+- Clerk Authentication: Protected dashboard routes ensuring only authorized restaurant staff have access via route proxies (`src/proxy.ts`).
 - Live Reservation Management: Real-time table tracking displaying Total Reservations, Today's Bookings, and Pending Actions.
 - Table Actions: One-click acceptance or decline updating the Firestore database in real time.
-- Menu CMS (/admin/menu): Interface to create, modify, and delete dishes, adjust multi-portion price tiers, and toggle best-seller badges.
-- Cloudinary Asset Pipeline: Direct image uploads via Cloudinary with cryptographic signatures generated through a server-side Next.js route handler.
+- Menu CMS (`/admin/menu`): Interface to create, modify, and delete dishes, adjust multi-portion price tiers, and toggle best-seller badges.
+- Cloudinary Asset Pipeline: Direct image uploads via Cloudinary with cryptographic signatures generated through a server-side Next.js route handler (`/api/cloudinary-sign`).
 
 ---
 
 ## Technical Stack
 
 | Layer | Technology | Purpose |
-|---|---|---|
-| Frontend Framework | Next.js 16 (App Router, Turbopack) | Server components, client interactivity, static generation |
-| Runtime / UI Library | React 19 | Component architecture and state lifecycle |
-| Programming Language | TypeScript 5 | End-to-end type safety and schema validation |
-| Styling | Tailwind CSS v4 | Utility-first styling with custom theme tokens |
-| Motion and Animation | Framer Motion v13 | Layout transitions, modals, drawers, and fade effects |
+| :--- | :--- | :--- |
+| Frontend Framework | Next.js 16.3.1 (App Router, Turbopack) | Server components, client interactivity, static generation |
+| Runtime / UI Library | React 19.2.8 | Component architecture and state lifecycle |
+| Programming Language | TypeScript 5.x | End-to-end type safety and schema validation |
+| Styling | Tailwind CSS v4 | CSS-first utility styling with custom theme tokens |
+| Motion and Animation | Framer Motion | Layout transitions, modals, drawers, and fade effects |
 | Smooth Scrolling | Lenis | Inertial scrolling engine with programmatic scroll locking |
 | State Management | Zustand v5 | Client-side cart state and drawer visibility management |
-| Authentication | Clerk (@clerk/nextjs v7) | Administrative authentication and session management |
-| Database | Google Cloud Firebase Firestore v12 | Real-time document storage for menus and reservations |
+| Authentication | Clerk (`@clerk/nextjs`) | Administrative authentication and session management via proxies |
+| Database | Google Cloud Firestore (Firebase SDK v12) | Real-time document storage for menus and reservations |
 | Media Storage | Cloudinary & Next-Cloudinary | Cloud asset storage, transformations, and signed uploads |
 | Icons | Lucide React | Clean, scalable icon system |
 
@@ -88,42 +106,43 @@ The application is structured into four primary layers:
 
 ## Project Structure
 
-```
-mandiwala/
+```text
+apps/mandiwala/
 ├── public/
-│   ├── ambiance/                  Looped background videos (gold particles, footer particles)
-│   ├── brand/                     Restaurant logo and brand assets
-│   ├── dish/                      Culinary photography and meal setup imagery
-│   └── menu/                      High-resolution physical menu scans
+│   ├── ambiance/                  # Looped background videos (gold particles, footer particles)
+│   ├── brand/                     # Restaurant logo and brand assets
+│   ├── dish/                      # Culinary photography and meal setup imagery
+│   └── menu/                      # High-resolution physical menu scans
 ├── src/
 │   ├── app/
 │   │   ├── admin/
-│   │   │   ├── menu/page.tsx      Admin menu CMS with dish creator and Cloudinary uploads
-│   │   │   └── page.tsx           Admin dashboard for table reservations
+│   │   │   ├── menu/page.tsx      # Admin menu CMS with dish creator and Cloudinary uploads
+│   │   │   └── page.tsx           # Admin dashboard for table reservations
 │   │   ├── api/
-│   │   │   └── cloudinary-sign/   Server-side route handler for Cloudinary signature generation
-│   │   ├── menu/page.tsx          Public digital ordering menu with category and dietary filters
-│   │   ├── physical-menu/page.tsx QR code physical menu viewer
-│   │   ├── globals.css            Tailwind CSS v4 setup with custom color and font tokens
-│   │   ├── layout.tsx             Root layout with ClerkProvider, fonts, and showcase top banner
-│   │   └── page.tsx               Homepage with hero, story, bestsellers, reviews, and booking
+│   │   │   └── cloudinary-sign/   # Server-side route handler for Cloudinary signature generation
+│   │   ├── menu/page.tsx          # Public digital ordering menu with category and dietary filters
+│   │   ├── physical-menu/page.tsx # QR code physical menu viewer
+│   │   ├── globals.css            # Tailwind CSS v4 setup with custom color and font tokens
+│   │   ├── layout.tsx             # Root layout with ClerkProvider, fonts, and showcase top banner
+│   │   └── page.tsx               # Homepage with hero, story, bestsellers, reviews, and booking
 │   ├── components/
-│   │   ├── BestSellers.tsx        Bestseller dishes grid with dynamic Firestore query
-│   │   ├── CartSidebar.tsx        Zustand-powered slide-over cart with WhatsApp dispatch
-│   │   ├── Footer.tsx             Restaurant contact, address, hours, and direction links
-│   │   ├── Navbar.tsx             Fixed navigation bar with scroll detection and cart badge
-│   │   ├── Preloader.tsx          Arabic geometric pattern preloader with Lenis scroll lock
-│   │   ├── SizeSelectorModal.tsx  Portion selection modal for single, half, tri, and family sizes
-│   │   └── SmoothScrollProvider.tsx Lenis smooth scroll provider wrapper
-│   └── lib/
-│       ├── data.ts                TypeScript types and interfaces for MenuItem
-│       ├── firebase.ts            Firebase initialization and Firestore database instance
-│       ├── hooks/useMenu.ts       Real-time hook for menu fetching and CRUD operations
-│       └── store.ts               Zustand store for shopping cart and portion items
-├── firestore.rules                Cloud Firestore security rules
-├── next.config.ts                 Next.js configuration
-├── package.json                   Project dependencies and build scripts
-└── tsconfig.json                  TypeScript compiler configuration
+│   │   ├── BestSellers.tsx        # Bestseller dishes grid with dynamic Firestore query
+│   │   ├── CartSidebar.tsx        # Zustand-powered slide-over cart with WhatsApp dispatch
+│   │   ├── Footer.tsx             # Restaurant contact, address, hours, and direction links
+│   │   ├── Navbar.tsx             # Fixed navigation bar with scroll detection and cart badge
+│   │   ├── Preloader.tsx          # Arabic geometric pattern preloader with Lenis scroll lock
+│   │   ├── SizeSelectorModal.tsx  # Portion selection modal for single, half, tri, and family sizes
+│   │   └── SmoothScrollProvider.tsx # Lenis smooth scroll provider wrapper
+│   ├── lib/
+│   │   ├── data.ts                # TypeScript types and interfaces for MenuItem
+│   │   ├── firebase.ts            # Firebase initialization and Firestore database instance
+│   │   ├── hooks/useMenu.ts       # Real-time hook for menu fetching and CRUD operations
+│   │   └── store.ts               # Zustand store for shopping cart and portion items
+│   └── proxy.ts                   # Next.js route protection and static media matcher
+├── firestore.rules                # Cloud Firestore security rules
+├── next.config.ts                 # Next.js compiler settings and production security headers
+├── package.json                   # Workspace package configuration (@restaurant-ecosystem/mandiwala)
+└── vercel.json                    # Standalone Vercel deployment configuration
 ```
 
 ---
@@ -180,24 +199,22 @@ export interface CartItem {
 
 ## Getting Started
 
-### Prerequisites
-- Node.js 18.18 or higher
-- pnpm (recommended), npm, or yarn
+This application is part of the `restaurant-ecosystem` monorepo.
 
-### Installation
-
-1. Clone the repository:
+### 1. Monorepo Installation
 ```bash
-git clone https://github.com/KatkamKoushik/mandiwala-arabian-restaurant.git
-cd mandiwala-arabian-restaurant
-```
-
-2. Install dependencies:
-```bash
+git clone https://github.com/KatkamKoushik/restaurant-ecosystem.git
+cd restaurant-ecosystem
 pnpm install
 ```
 
-3. Configure environment variables in `.env.local`:
+### 2. Configure Environment Variables
+Copy `.env.example` in this directory to `.env.local`:
+```bash
+cp apps/mandiwala/.env.example apps/mandiwala/.env.local
+```
+
+Populate the required credentials:
 ```env
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
@@ -218,28 +235,30 @@ NEXT_PUBLIC_CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-4. Start the development server:
+### 3. Run Development Server
+From the monorepo root:
 ```bash
-pnpm run dev
+pnpm --filter @restaurant-ecosystem/mandiwala dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## Build and Production
-
-To verify types and generate an optimized production build:
-
+Alternatively, from within this directory:
 ```bash
-# Type check
-pnpm exec tsc --noEmit
+cd apps/mandiwala
+pnpm dev
+```
 
-# Production build
-pnpm run build
+Open `http://localhost:3000` in your web browser.
 
-# Start production server
-pnpm run start
+### 4. Build and Validate
+```bash
+# Typecheck
+pnpm --filter @restaurant-ecosystem/mandiwala typecheck
+
+# Lint
+pnpm --filter @restaurant-ecosystem/mandiwala lint
+
+# Build
+pnpm --filter @restaurant-ecosystem/mandiwala build
 ```
 
 ---
@@ -263,4 +282,4 @@ This custom web experience was designed and developed by:
 
 ## License
 
-This project is created and maintained for showcase and demonstration purposes. All rights reserved.
+This project is created and maintained for showcase and demonstration purposes. Code is licensed under the [MIT License](https://github.com/KatkamKoushik/restaurant-ecosystem/blob/main/LICENSE).

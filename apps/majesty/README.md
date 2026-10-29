@@ -1,8 +1,23 @@
 # Majesty Mandi House - Web Application and Showcase
 
-A production-grade, immersive web experience built for Majesty Mandi House, a premier Arabian Mandi restaurant located in Hanamkonda, Warangal, Telangana.
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.9-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.4-blue?style=flat&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.19-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
+[![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?style=flat&logo=clerk)](https://clerk.com/)
+[![Firebase](https://img.shields.io/badge/Database-Firestore-FFCA28?style=flat&logo=firebase)](https://firebase.google.com/)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=flat&logo=vercel)](https://majesty-mandi-house-eight.vercel.app/)
 
-This project was conceived, designed, and developed by Koushik Katkam and Vyshnavi Nagavelli.
+A production-grade, immersive web experience engineered for Majesty Mandi House, a premier Arabian Mandi restaurant located in Hanamkonda, Warangal, Telangana.
+
+This workspace is part of the [restaurant-ecosystem](https://github.com/KatkamKoushik/restaurant-ecosystem) monorepo under the package name `@restaurant-ecosystem/majesty`.
+
+---
+
+## Live Demonstration
+
+The production deployment is hosted on Vercel:
+[https://majesty-mandi-house-eight.vercel.app/](https://majesty-mandi-house-eight.vercel.app/)
 
 ---
 
@@ -13,16 +28,9 @@ This web application was originally engineered by Koushik Katkam and Vyshnavi Na
 When the restaurant management declined the purchase proposal, the developers chose to preserve the complete codebase and deploy it publicly as an active, high-performance showcase and engineering portfolio demonstration.
 
 To communicate this context to visitors, a prominent announcement banner is placed at the top of the interface:
-`CURRENTLY AVAILABLE FOR SHOWCASE PURPOSES. A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK & VYSHNAVI.`
+*"CURRENTLY AVAILABLE FOR SHOWCASE PURPOSES. A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK & VYSHNAVI."*
 
 All ordering workflows, menu configurations, reservation mechanisms, and administrative interfaces remain fully functional, demonstrating production-level full-stack engineering and luxury brand presentation.
-
----
-
-## Live Demonstration
-
-The production deployment is hosted on Vercel:
-https://majesty-mandi-house-eight.vercel.app
 
 ---
 
@@ -30,7 +38,7 @@ https://majesty-mandi-house-eight.vercel.app
 
 ### 1. Scroll-Driven 241-Frame Canvas Hero
 - Renders an interactive 241-frame sequence (`frame_0000.webp` to `frame_0240.webp`) linked directly to the user's scroll progression.
-- Uses an HTML5 `<canvas>` element managed through a requestAnimationFrame throttle to maintain consistent 60 FPS rendering without triggering React re-renders.
+- Uses an HTML5 `<canvas>` element managed through a `requestAnimationFrame` throttle to maintain consistent 60 FPS rendering without triggering React re-renders.
 - Employs eager image preloading and cache-busting query strings to prevent stale asset delivery.
 - Smoothly transitions into an interactive section presenting rotating signature Mandi platters.
 
@@ -47,7 +55,7 @@ https://majesty-mandi-house-eight.vercel.app
   - Order subtotal
   - Statutory 5% Goods and Services Tax (GST)
   - Final payable grand total
-- Assembles the complete order into an encoded WhatsApp message string and dispatches it directly to the restaurant operations number (`+91 9502316909`).
+- Assembles the complete order into an encoded WhatsApp message string and dispatches it directly to the restaurant operations desk (`+91 9502316909`).
 
 ### 4. Table Reservation System
 - A dedicated reservation interface (`TableReservation.tsx`) that gathers guest party size, preferred date, time slot, customer contact info, and celebration occasion.
@@ -69,35 +77,36 @@ https://majesty-mandi-house-eight.vercel.app
   - Deletion of menu items with instant UI synchronization
 - A custom login interface at `/admin/login` styled consistently with the dark visual theme.
 
-### 8. Ambient Video Layering
+### 8. Ambient Video Layering & Sister Switcher
 - Seamless looping background video elements embedded in the top showcase banner (`gold-particles.mp4`) and the footer section (`footer-particles.mp4`).
 - Optimized using `autoPlay`, `loop`, `muted`, `playsInline`, and `preload="auto"` attributes.
 - Configured in the Next.js middleware proxy (`src/proxy.ts`) to bypass authentication checks and allow direct CDN caching and streaming.
+- Sister restaurant switcher component from `@restaurant-ecosystem/ui` embedded in the global layout header.
 
 ---
 
 ## Technical Stack
 
 | Layer | Technology |
-|---|---|
-| Framework | Next.js (App Router) |
-| Language | TypeScript |
-| UI Library | React 19 |
-| Styling | Tailwind CSS, CSS Variables |
+| :--- | :--- |
+| Framework | Next.js 16.2.9 (App Router, Turbopack) |
+| Language | TypeScript 5.x |
+| UI Library | React 19.2.4 |
+| Styling | Tailwind CSS 3.4.19, Custom Theme Directives |
 | Animation | Framer Motion |
 | Icons | Lucide React |
-| Authentication | Clerk (`@clerk/nextjs`) |
+| Authentication | Clerk (`@clerk/nextjs`) via route proxies (`src/proxy.ts`) |
 | Database | Google Cloud Firestore (Firebase Web SDK) |
 | Media Storage | Cloudinary (`next-cloudinary`) |
-| State Management | Zustand, React State |
-| Deployment | Vercel |
+| State Management | Zustand, React State Hooks |
+| Deployment | Vercel Edge Infrastructure |
 
 ---
 
 ## Project Structure
 
-```
-majesty-mandi-house/
+```text
+apps/majesty/
 ├── public/
 │   ├── ambiance/             # Looping background video files (.mp4) and venue photography
 │   ├── brand/                # Restaurant logos and identity assets
@@ -126,16 +135,32 @@ majesty-mandi-house/
 │   └── types/
 │       └── index.ts          # Core TypeScript models (MenuItem, CartItem)
 ├── migrate.mjs               # Node.js script to seed static menu data into Firestore
-├── package.json
-└── tailwind.config.js
+├── next.config.ts            # Next.js compiler settings and production security headers
+├── package.json              # Workspace package configuration (@restaurant-ecosystem/majesty)
+├── tailwind.config.js        # Tailwind CSS configuration
+└── vercel.json               # Standalone Vercel deployment configuration
 ```
 
 ---
 
-## Environment Configuration
+## Installation and Local Setup
 
-A `.env.local` file must be created in the root directory with the following variables:
+This workspace is part of the `restaurant-ecosystem` monorepo.
 
+### 1. Monorepo Installation
+```bash
+git clone https://github.com/KatkamKoushik/restaurant-ecosystem.git
+cd restaurant-ecosystem
+pnpm install
+```
+
+### 2. Configure Environment Variables
+Copy `.env.example` in this directory to `.env.local`:
+```bash
+cp apps/majesty/.env.example apps/majesty/.env.local
+```
+
+Populate the required credentials:
 ```env
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
@@ -159,57 +184,30 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=cloudinary_cloud_name
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=cloudinary_upload_preset
 ```
 
----
-
-## Installation and Local Setup
-
-### Prerequisites
-- Node.js 18.18 or higher
-- PNPM (recommended), NPM, or Yarn
-
-### Steps
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/KatkamKoushik/majesty-mandi-house.git
-   cd majesty-mandi-house
-   ```
-
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-
-3. Configure environment variables:
-   Create a `.env.local` file following the template above and supply valid credentials for Firebase, Clerk, and Cloudinary.
-
-4. Optional - Seed the Firestore Database:
-   If the Firestore database contains no initial documents, populate it with default records:
-   ```bash
-   node migrate.mjs
-   ```
-
-5. Launch the local development server:
-   ```bash
-   pnpm run dev
-   ```
-
-6. Navigate to `http://localhost:3000` in a web browser to view the application.
-
----
-
-## Production Build
-
-To assemble an optimized production build:
-
+### 3. Run Development Server
+From the monorepo root:
 ```bash
-pnpm run build
+pnpm --filter @restaurant-ecosystem/majesty dev
 ```
 
-To execute the production build locally:
-
+Alternatively, from within this directory:
 ```bash
-pnpm run start
+cd apps/majesty
+pnpm dev
+```
+
+Open `http://localhost:3000` in your web browser.
+
+### 4. Build and Validate
+```bash
+# Typecheck
+pnpm --filter @restaurant-ecosystem/majesty typecheck
+
+# Lint
+pnpm --filter @restaurant-ecosystem/majesty lint
+
+# Build
+pnpm --filter @restaurant-ecosystem/majesty build
 ```
 
 ---
@@ -247,4 +245,4 @@ Conceived, designed, and developed by:
 
 ## License and Terms
 
-This repository is maintained for demonstration and showcase purposes. Commercial brand names, trademarks, and establishment assets remain the property of their respective owners.
+This repository is maintained for demonstration and showcase purposes. Code is licensed under the [MIT License](https://github.com/KatkamKoushik/restaurant-ecosystem/blob/main/LICENSE).

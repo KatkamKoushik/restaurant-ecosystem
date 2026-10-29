@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import { productionSecurityHeaders } from "@restaurant-ecosystem/config";
 
 const nextConfig: NextConfig = {
+  basePath: "/aroma",
   transpilePackages: [
     "@restaurant-ecosystem/ui",
     "@restaurant-ecosystem/utils",

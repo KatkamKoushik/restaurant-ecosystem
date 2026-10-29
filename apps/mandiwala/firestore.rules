@@ -2,21 +2,65 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Match any document in the 'reservations' collection
-    match /reservations/{reservationId} {
-      // Anyone can create a reservation
-      allow create: if true;
-      // Only authenticated admins (checked via custom logic or just broadly for now) can read/update/delete
-      // In a real production app, verify the user's role here if using Firebase Auth.
-      // Since we are using Clerk for auth, our server actions will bypass rules using Firebase Admin SDK,
-      // OR if we read directly from client, we need to allow read.
-      allow read, update, delete: if true; // WARNING: Setting to true for demo purposes. Secure this in production.
+    // Helper function to validate reservation payload structure & prevent injection
+    function isValidReservation() {
+      let data = request.resource.data;
+      let requiredFields = ['name', 'phone', 'date', 'time', 'size'];
+      let allowedFields = ['name', 'phone', 'date', 'time', 'size', 'notes', 'status', 'createdAt'];
+
+      return data.keys().hasAll(requiredFields)
+          && data.keys().hasOnly(allowedFields)
+          && data.name is string
+          && data.name.size() > 0
+          && data.name.size() <= 100
+          && data.phone is string
+          && data.phone.matches('^\\+?[0-9 -]{10,20}$')
+          && data.date is string
+          && data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+          && data.time is string
+          && data.time.size() > 0
+          && data.time.size() <= 20
+          && data.size is string
+          && data.size.size() > 0
+          && data.size.size() <= 50
+          && (!('notes' in data) || (data.notes is string && data.notes.size() <= 500));
     }
-    
+
+    // Helper function to strictly verify administrator role in Firebase tokens
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.role == 'admin' ||
+        request.auth.token.admin == true
+      );
+    }
+
+    // Customer Reservations:
+    // Public customers can only create reservations with valid schema and initial pending status.
+    // Client-side reading, updating, or deleting customer data is strictly restricted to verified Admins.
+    // (Privileged admin operations in production are mediated by Clerk-authenticated server handlers using Firebase Admin SDK).
+    match /reservations/{reservationId} {
+      allow create: if isValidReservation()
+                    && (request.resource.data.status == 'pending' || !('status' in request.resource.data));
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Public Menu Catalog:
+    // Public customers can view the dishes catalog in real-time.
+    // Modifying dishes (create, update, delete) is restricted to verified administrators.
     match /menu/{itemId} {
-      allow read: if true; // Anyone can read the menu
-      // Admin dashboard operations
-      allow write: if true; // WARNING: Secure in production
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Dishes collection
+    match /dishes/{dishId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Default deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

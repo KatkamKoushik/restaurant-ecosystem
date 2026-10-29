@@ -1,18 +1,36 @@
 # Aroma Fine Dine Restaurant and Banquet Hall
 
-I built this platform as a complete, production-grade web application and management system for Aroma Fine Dine Restaurant and Banquet Hall, a premier dining establishment in Hanamkonda, Warangal.
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.9-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.4-blue?style=flat&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.19-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
+[![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?style=flat&logo=clerk)](https://clerk.com/)
+[![Firebase](https://img.shields.io/badge/Database-Firestore-FFCA28?style=flat&logo=firebase)](https://firebase.google.com/)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=flat&logo=vercel)](https://aroma-fine-dine-restaurant-banquet.vercel.app/)
+
+A complete, production-grade web application and dining management platform engineered for Aroma Fine Dine Restaurant and Banquet Hall, a premier dining establishment located in Hanamkonda, Warangal.
+
+This workspace is part of the [restaurant-ecosystem](https://github.com/KatkamKoushik/restaurant-ecosystem) monorepo under the package name `@restaurant-ecosystem/aroma`.
+
+---
+
+## Live Demonstration
+
+The production deployment is hosted on Vercel:
+[https://aroma-fine-dine-restaurant-banquet.vercel.app/](https://aroma-fine-dine-restaurant-banquet.vercel.app/)
 
 ---
 
 ## Background and Project Origin
 
-I initially engineered and designed this entire website as a bespoke commercial software product intended for sale to the restaurant owner. I conducted field research, analyzed their physical menu cards, photographed their interior ambience, organized their culinary catalog, and developed a complete digital ordering and reservation platform with an administrative content management system.
+I initially engineered and designed this entire website as a bespoke commercial software product intended for acquisition by the restaurant management. I conducted field research, analyzed their physical menu cards, photographed their interior ambience, organized their culinary catalog, and developed a complete digital ordering and reservation platform with an administrative content management system.
 
-When I presented the completed product, the restaurant owner refused to purchase it. 
+When I presented the completed product, the restaurant owner refused to purchase it.
 
-Instead of discarding months of intensive design and engineering work, my co-developer Vyshnavi Nagavelli and I decided to retain the application, complete all advanced features, and deploy it as a live showcase of our full-stack engineering capabilities. This is why you see the showcase disclaimer banner across the top of the application stating: *"CURRENTLY AVAILABLE FOR SHOWCASE PURPOSES. A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK & VYSHNAVI."*
+Instead of discarding months of intensive design and engineering work, my co-developer Vyshnavi Nagavelli and I decided to retain the application, complete all advanced features, and deploy it as a live showcase of our full-stack engineering capabilities. This is why you see the showcase disclaimer banner across the top of the application stating:
+*"CURRENTLY AVAILABLE FOR SHOWCASE PURPOSES. A CUSTOM WEB EXPERIENCE BUILT BY KOUSHIK & VYSHNAVI."*
 
-Today, this repository serves as a live demonstration of how modern web technologies, luxury visual aesthetics, and practical business workflows come together in a real-world restaurant application.
+Today, this application serves as an active demonstration of how modern web technologies, luxury visual aesthetics, and practical business workflows come together in a real-world restaurant application.
 
 ---
 
@@ -21,10 +39,11 @@ Today, this repository serves as a live demonstration of how modern web technolo
 I engineered this project with a customer-facing storefront, a digital menu viewer, automated communication dispatchers, and an administrative dashboard.
 
 ### 1. Luxury Visual Experience and Motion Design
-- Obsidian and Gold Aesthetic: The UI is themed with deep blacks (`#0B0B0C`), rich warm charcoals (`#161618`), and imperial gold accents (`#DFB15B`, `#C5A059`) reflecting royalty and fine dining.
+- Obsidian and Gold Aesthetic: The UI is themed with deep blacks (`#0B0B0C`), rich warm charcoals (`#161618`), and imperial gold accents (`#DFB15B`, `#C5A059`) reflecting luxury and fine dining.
 - Custom Brand Splash Screen: Upon first visit, a custom loading screen renders an ambient radial glow and animated logo reveal before fading smoothly into the main application.
-- Optimized Smooth Scrolling: Powered by Lenis, calibrated to a 0.8-second easing duration and 1.2x wheel multiplier with all conflicting native browser smooth-scroll directives removed for responsive navigation.
+- Optimized Smooth Scrolling: Powered by Lenis, calibrated to a 0.8-second easing duration and 1.2x wheel multiplier for fluid navigation.
 - Looping Ambient Video Backdrops: The top showcase banner and footer feature compressed, looping atmospheric particle animations layered beneath semi-transparent darkened overlays.
+- Sister Restaurant Switcher: Seamless cross-navigation across the entire culinary group via the `@restaurant-ecosystem/ui` ecosystem switcher.
 
 ### 2. Live Interactive Menu and Dietary Filtering
 - Dual-Tier Menu Architecture: The application loads fallbacks from a static dataset of over 200 items while asynchronously synchronizing in real time with Google Cloud Firestore.
@@ -71,15 +90,15 @@ I selected this stack to balance high rendering performance, SEO optimization, a
 ### Backend and Cloud Infrastructure
 - Database: Google Cloud Firestore (Firebase Web SDK v12) for dynamic dish storage, banquet highlights, and menu syncing
 - Media Storage: Cloudinary for fast dish image hosting and edge delivery
-- Authentication: Clerk (`@clerk/nextjs`) securing the administrative interface
+- Authentication: Clerk (`@clerk/nextjs`) securing the administrative interface via route proxies (`src/proxy.ts`)
 - Deployment: Vercel edge infrastructure
 
 ---
 
 ## Directory Structure
 
-```
-aroma-fine-dine-and-banquet-hall/
+```text
+apps/aroma/
 ├── public/
 │   ├── ambiance/           # Looping background videos (gold-particles.mp4, footer-particles.mp4)
 │   ├── ambience/           # High-resolution restaurant interior and exterior photography
@@ -124,10 +143,10 @@ aroma-fine-dine-and-banquet-hall/
 │   │   └── useCartStore.ts # Zustand global cart store with quantity and portion modifiers
 │   └── types/
 │       └── index.ts        # TypeScript definitions for MenuItem, CartItem, and Portion models
-├── upload_to_cloudinary.js # Automation script for bulk uploading local food photos to Cloudinary
-├── upload_to_firebase.js   # Script to seed Firestore from local JSON and media records
-├── uploadAndSeed.mjs       # End-to-end migration pipeline from raw assets to Firestore
-└── tailwind.config.js      # Custom theme color mappings, fonts, and container rules
+├── next.config.ts          # Next.js compiler settings and production security headers
+├── package.json            # Workspace package configuration (@restaurant-ecosystem/aroma)
+├── tailwind.config.js      # Custom theme color mappings, fonts, and container rules
+└── vercel.json             # Standalone Vercel deployment configuration
 ```
 
 ---
@@ -159,29 +178,28 @@ export interface CartItem extends MenuItem {
 
 ## Local Development Setup
 
-If you want to run this application on your local machine, follow these steps:
+This application is part of the `restaurant-ecosystem` monorepo.
 
-### 1. Clone the Repository
+### 1. Monorepo Installation
 ```bash
-git clone https://github.com/KatkamKoushik/aroma-fine-dine-and-banquet-hall.git
-cd aroma-fine-dine-and-banquet-hall
-```
-
-### 2. Install Dependencies
-```bash
+git clone https://github.com/KatkamKoushik/restaurant-ecosystem.git
+cd restaurant-ecosystem
 pnpm install
-# or: npm install / yarn install
 ```
 
-### 3. Set Up Environment Variables
-Create a file named `.env.local` in the project root and add your configuration credentials:
+### 2. Configure Environment Variables
+Copy `.env.example` in this directory to `.env.local`:
+```bash
+cp apps/aroma/.env.example apps/aroma/.env.local
+```
 
+Populate the required credentials:
 ```env
-# Clerk Authentication (Required for /admin dashboard)
+# Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
 
-# Firebase Configuration (Required for Firestore real-time menu sync)
+# Firebase Configuration
 NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSy...
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-app.firebaseapp.com
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
@@ -189,34 +207,36 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-app.firebasestorage.app
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=...
 
-# Cloudinary (Required for image upload widget in /admin)
+# Cloudinary Media
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 ```
 
-### 4. Start the Development Server
+### 3. Run Development Server
+From the monorepo root:
 ```bash
-pnpm run dev
+pnpm --filter @restaurant-ecosystem/aroma dev
+```
+
+Alternatively, from within this directory:
+```bash
+cd apps/aroma
+pnpm dev
 ```
 
 Open `http://localhost:3000` in your web browser.
 
-### 5. Build for Production
-To verify type safety and produce an optimized production build:
+### 4. Build and Validate
 ```bash
-pnpm run build
+# Typecheck
+pnpm --filter @restaurant-ecosystem/aroma typecheck
+
+# Lint
+pnpm --filter @restaurant-ecosystem/aroma lint
+
+# Build
+pnpm --filter @restaurant-ecosystem/aroma build
 ```
-
----
-
-## Utility Scripts
-
-I included several data engineering and migration scripts in the root directory:
-
-- `uploadAndSeed.mjs`: Reads menu items, batches uploads of local images to Cloudinary, maps returned secure URLs to their respective items, and populates the `menuItems` collection in Google Cloud Firestore.
-- `upload_to_cloudinary.js`: Handles standalone image batching to Cloudinary with automatic retry logic and rate-limit mitigation.
-- `upload_to_firebase.js`: Direct seeding script using the Firebase Admin SDK to push items into Firestore.
-- `check_images.mjs` and `checkMissing.ts`: Health-check utilities to verify that all dishes have valid image references and flagged missing photos.
 
 ---
 
@@ -239,4 +259,4 @@ I designed and engineered this web experience together with my co-developer:
 
 ## License
 
-This project is maintained for showcase and portfolio evaluation purposes. All restaurant branding, menu assets, and imagery are property of their respective owners. Code is available under the MIT License.
+This project is maintained for showcase and portfolio evaluation purposes. Code is licensed under the [MIT License](https://github.com/KatkamKoushik/restaurant-ecosystem/blob/main/LICENSE).

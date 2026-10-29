@@ -1,0 +1,60 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "aroma": {
+      "root": "apps/aroma",
+      "framework": "nextjs"
+    },
+    "majesty": {
+      "root": "apps/majesty",
+      "framework": "nextjs"
+    },
+    "mandiwala": {
+      "root": "apps/mandiwala",
+      "framework": "nextjs"
+    },
+    "sampradaya": {
+      "root": "apps/sampradaya",
+      "framework": "nextjs"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/aroma",
+      "destination": { "service": "aroma" }
+    },
+    {
+      "source": "/aroma/(.*)",
+      "destination": { "service": "aroma" }
+    },
+    {
+      "source": "/majesty",
+      "destination": { "service": "majesty" }
+    },
+    {
+      "source": "/majesty/(.*)",
+      "destination": { "service": "majesty" }
+    },
+    {
+      "source": "/mandiwala",
+      "destination": { "service": "mandiwala" }
+    },
+    {
+      "source": "/mandiwala/(.*)",
+      "destination": { "service": "mandiwala" }
+    },
+    {
+      "source": "/sampradaya",
+      "destination": { "service": "sampradaya" }
+    },
+    {
+      "source": "/sampradaya/(.*)",
+      "destination": { "service": "sampradaya" }
+    },
+    {
+      "source": "/(.*)",
+      "destination": { "service": "sampradaya" }
+    }
+  ]
+}
+
