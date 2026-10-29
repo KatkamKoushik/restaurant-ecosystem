@@ -9,6 +9,7 @@
 [![Firebase Firestore](https://img.shields.io/badge/Firebase-Firestore-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)
 [![Cloudinary Media](https://img.shields.io/badge/Cloudinary-Media-3448C5?logo=cloudinary&logoColor=white)](https://cloudinary.com/)
 [![Vercel Deployed](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel&logoColor=white)](https://vercel.com/)
+[![GitHub Wiki](https://img.shields.io/badge/Documentation-Wiki-blue?logo=gitbook&logoColor=white)](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki)
 [![License MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A high-performance Turborepo and pnpm workspaces monorepo consolidating four distinct restaurant web applications while preserving their independent design systems, menus, brand identities, and deployment workflows.
@@ -258,6 +259,22 @@ All four applications are configured for independent continuous deployment on Ve
 | **Majesty** | `apps/majesty` | `cd ../.. && pnpm --filter @restaurant-ecosystem/majesty build` | `.next` | Next.js |
 
 Each application contains an individual `vercel.json` file configuring framework settings and root directory overrides.
+
+---
+
+## Documentation & Wiki
+
+Comprehensive system documentation, architectural guides, local onboarding steps, and operational runbooks are published to the repository [GitHub Wiki](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki):
+
+- **[Home & Ecosystem Overview](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki)**: Monorepo goals, quick index, and system design.
+- **[Architecture & Monorepo Design](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki/Architecture)**: Turborepo workspace topology, package dependencies, and shared configs.
+- **[Getting Started & Local Onboarding](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki/Getting-Started)**: Toolchain requirements, environment configuration, and local dev commands.
+- **[Restaurant Showcase](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki/Restaurant-Showcase)**: Detailed profiles of Sampradaya, Majesty, Mandiwala, and Aroma.
+- **[Deployment & Services](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki/Deployment-and-Services)**: Vercel Services multi-app routing, root `vercel.json`, and DNS mappings.
+- **[Security & Best Practices](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki/Security-and-Best-Practices)**: HTTP headers, fail-closed auth, Cloudinary signatures, and secret hygiene.
+- **[Contributing & Development](https://github.com/KatkamKoushik/restaurant-ecosystem/wiki/Contributing-and-Development)**: Branching strategy, commit guidelines, and automated verification.
+
+Operational recovery and emergency deployment procedures are also documented in [`docs/DEPLOYMENT_AND_OPERATIONS.md`](docs/DEPLOYMENT_AND_OPERATIONS.md).
 
 ---
 
